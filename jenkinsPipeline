@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages(){
+        stage('clear directory '){
+            steps{
+           sh 'cd /var/lib/jenkins/workspace/test && rm -rf PyJenkins/'
+            }
+        }
+        stage('clone') {
+            steps{
+                sh 'git clone https://github.com/joshua-lb/PyJenkins.git'
+            }
+            }
+        stage('Docker build & run') {
+            steps{
+                sh 'cd /var/lib/jenkins/workspace/test/PyJenkins && docker build -t mypy . && docker run -p 5000:5000 mypy'
+            }
+            }
+    }
+}
